@@ -1,0 +1,13 @@
+<div class="container">
+    
+    <button class="btn btn-primary" (click)="getFiles()">Download files</button>
+  
+
+    <ul id="thumbnailsList">
+        <li *ngFor="let image of images | async" class="img">
+            <a [routerLink]="['/image', image.$key]">
+            <img src="{{image.url}}" class="tn">
+            </a>
+        </li>
+    </ul>
+</div>
