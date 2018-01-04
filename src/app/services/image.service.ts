@@ -6,6 +6,10 @@ import { FirebaseApp } from 'angularfire2';
 import 'firebase/storage';
 import { GalleryImage } from '../models/galleryImage.model';
 import * as firebase from 'firebase';
+import { saveAs } from 'file-saver/FileSaver';
+import {element} from "protractor";
+import Blob = firebase.firestore.Blob;
+
 
 @Injectable()
 export class ImageService {
@@ -23,8 +27,20 @@ export class ImageService {
     return this.db.list('uploads').valueChanges();
   }
 
-  getImage(key: string) {
-    return firebase.database().ref('uploads/' +key).once('value')
-    .then((snap) => snap.val());
+  getImage(imagelist) {
+    let storage = firebase.storage();
+
+    imagelist.map(image =>
+        storage.refFromURL(image.url).getDownloadURL().then(function(url) {
+          let xhr = new XMLHttpRequest();
+          xhr.responseType = 'blob';
+          xhr.onload = function(event) {
+            let blob = xhr.response;
+            saveAs(blob, image.name);
+          };
+          xhr.open('GET', url,true);
+          xhr.send();
+        }));
+
   }
 }

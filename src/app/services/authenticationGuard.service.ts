@@ -15,7 +15,6 @@ export class AuthenticationGuard implements CanActivate {
         this.user = afAuth.authState;
         
     }
-     console.log("user.uid");
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.user.map((auth) => {
             if (!auth) {
