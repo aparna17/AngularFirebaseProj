@@ -1,13 +1,20 @@
-<div class="container">
-    
+<div class="container" xmlns="http://www.w3.org/1999/html">
+
     <button class="btn btn-primary" (click)="getFiles()">Download files</button>
-  
+
 
     <ul id="thumbnailsList">
-        <li *ngFor="let image of images | async" class="img">
-            <a [routerLink]="['/image', image.$key]">
-            <img src="{{image.url}}" class="tn">
+        <li *ngFor="let image of images | async" class="img"  >
+            <input type="checkbox" (change)= "selectedImage(image)">
+            <a>
+                <img src="{{image.url}}" class="tn">
             </a>
+            <h3>{{image.name}}</h3>
+
         </li>
+
     </ul>
+
+    <button class="btn btn-primary" (click)="download()">Download files to local</button>
+
 </div>
